@@ -126,6 +126,6 @@ class M3uDwl(object):
 
     def exit(self):
         """ when the class is deleted """
-        print "got %d bits" % self.size
-        if self.fhandle:
+        if self.fhandle and not self.fhandle.closed:
+            print "got %d bits" % self.size
             self.fhandle.close()
