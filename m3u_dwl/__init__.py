@@ -99,7 +99,12 @@ class M3uDwl(object):
 
             # get data into file
             data_url = os.path.join(self.http_dir, data_name)
-            data = urllib2.urlopen(data_url).read()
+            try:
+                data = urllib2.urlopen(data_url).read()
+            except HTTPError:
+                # if we are in the second chunk, we are going to put
+                # the first twice
+                return
             self.fhandle.write(data)
             self.size += len(data)
 
