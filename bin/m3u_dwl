@@ -1,0 +1,25 @@
+#!/usr/bin/python
+"""
+Exemple script of how M3uDwl can be used
+"""
+
+from m3u_dwl import M3uDwl
+from optparse import OptionParser
+
+
+def main():
+    """ create a M3uDwl object and use it with command line params """
+    parser = OptionParser()
+    parser.add_option("-f", "--file", dest="filename",
+                      help="write downloaded file to FILE", metavar="FILE")
+    parser.add_option("-u", "--url", dest="url",
+                      help="download from url URL", metavar="URL")
+
+    options, _args = parser.parse_args()
+
+    dwl = M3uDwl(options.url, options.filename)
+    dwl.run()
+
+
+if __name__ == '__main__':
+    main()

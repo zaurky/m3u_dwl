@@ -19,6 +19,7 @@ setup(
     license='GPLV2',
     url='http://github.com/zaurky/m3u_dwl',
     packages=['m3u_dwl'],
+    scripts=['bin/m3u_dwl'],
     install_requires=[
         'BeautifulSoup',
     ],
