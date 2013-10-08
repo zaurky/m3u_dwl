@@ -129,7 +129,7 @@ class M3uDwl(object):
         if self.fhandle and not self.fhandle.closed:
             self.fhandle.close()
             if not self.size:
-                print "emptu file, delete it"
+                print "empty file, delete it"
                 os.unlink(self.filename)
             else:
                 print "got %d bits" % self.size
