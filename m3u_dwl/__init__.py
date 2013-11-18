@@ -8,7 +8,7 @@ import os
 import sys
 import time
 import urllib2
-from urllib2 import HTTPError
+from urllib2 import HTTPError, URLError
 
 
 class NoPlayList(Exception):
@@ -61,7 +61,7 @@ class M3uDwl(object):
         playlist = None
         try:
             playlist = cls.parse_m3u(urllib2.urlopen(url).read())
-        except HTTPError:
+        except (HTTPError, URLError):
             pass
 
         if not playlist:
@@ -114,7 +114,12 @@ class M3uDwl(object):
     def run(self):
         """ loop as long as there is data and download it """
         self.fhandle = open(self.filename, 'w', 0)
-        self.fhandle.write("\x00\x00\xba\x01\x00\x21\x00\x01")
+        try:
+            self.fhandle.write("\x00\x00\xba\x01\x00\x21\x00\x01")
+        except IOError:
+            self.fhandle.close()
+            os.unlink(self.filename)
+            return
 
         self.http_dir = os.path.dirname(self.pl1_url)
 
