@@ -5,6 +5,7 @@ M3u downloader module
 
 import atexit
 import os
+import socket
 import sys
 import time
 import urllib2
@@ -126,7 +127,10 @@ class M3uDwl(object):
         self.get_second_playlist()
 
         while True:
-            self.get_chunk()
+            try:
+                self.get_chunk()
+            except socket.error:
+                pass
             time.sleep(1)
 
     def exit(self):
