@@ -61,7 +61,7 @@ class M3uDwl(object):
         """ get the content at url and parse it to get the m3u dict """
         playlist = None
         try:
-            playlist = cls.parse_m3u(urllib2.urlopen(url).read())
+            playlist = cls.parse_m3u(urllib2.urlopen(url, timeout=10).read())
         except (HTTPError, URLError):
             pass
 
@@ -101,7 +101,9 @@ class M3uDwl(object):
             # get data into file
             data_url = os.path.join(self.http_dir, data_name)
             try:
-                data = urllib2.urlopen(data_url).read()
+                data = urllib2.urlopen(data_url, timeout=10).read()
+            except URLError:
+                return
             except HTTPError:
                 # if we are in the second chunk, we are going to put
                 # the first twice
